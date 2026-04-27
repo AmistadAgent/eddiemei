@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+/* Memorial palette: warm, calm, high contrast. Edit --bg / --ink to tune. */
+:root {
+  --bg: #f6f1e8;
+  --bg-veil: #ede6da;
+  --ink: #1c1c1c;
+  --ink-muted: #3a3a3a;
+  --ink-faint: #5c5a56;
+  --ink-soft: #8a857c;
+  --card: #fdfbf6;
+  --mist: #e8e2d8;
+  --accent: #6b5a4a;
+  --accent-deep: #4a3f35;
+  --accent-muted: #ddd4c8;
+  --accent-warm: #e8d9c4;
+  --glow: rgba(100, 85, 65, 0.08);
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --font-sans: var(--font-ui);
+  --font-serif: var(--font-display);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  min-height: 100dvh;
+  text-rendering: optimizeLegibility;
+}
+
+/* Subtle slow idle: soft radial drift (respects reduced motion) */
+.memorial-warm {
+  min-height: 100%;
+}
+
+@supports (animation-timeline: auto) {
+  .memorial-warm::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+        ellipse 120% 80% at 50% 0%,
+        var(--glow) 0%,
+        transparent 45%
+      ),
+      radial-gradient(
+        ellipse 100% 60% at 100% 100%,
+        rgba(139, 120, 95, 0.06) 0%,
+        transparent 50%
+      );
+    animation: memorial-idle 28s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memorial-warm::before {
+    animation: none;
+  }
+}
+
+@keyframes memorial-idle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.86;
+  }
+}
+
+/* Focus: visible, clear rings for keyboard users */
+:where(a, button, input, textarea, select, summary):focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
