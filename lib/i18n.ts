@@ -26,8 +26,8 @@ export const ui = {
   simpleMode: { en: "Use simple view", zh: "使用簡化畫面" },
   simpleModeOff: { en: "Back to full view", zh: "返回完整畫面" },
   guidedHint: {
-    en: "Large buttons below. One tap to begin.",
-    zh: "下方為大按鈕。點一下即可。",
+    en: "A life remembered through moments.",
+    zh: "以影像回顧他的一生",
   },
   invalidYoutube: {
     en: "Please add a valid YouTube URL in data/topics.ts for this video.",

@@ -106,7 +106,7 @@ export function HomeView() {
             id="home-hero-title"
             className="max-w-2xl font-serif text-4xl font-medium leading-[1.1] text-[#141210] [text-shadow:0_1px_2px_rgba(255,250,240,0.9)] sm:text-5xl md:text-6xl"
           >
-            Eddie Mei
+            Eddie Mei 梅志清
           </h1>
           {!simpleMode && (
             <div className="mt-3 max-w-xl [text-shadow:0_0_1px_rgba(255,250,240,0.8)] sm:mt-4">

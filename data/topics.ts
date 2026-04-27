@@ -45,18 +45,10 @@ export const topics: MemorialTopic[] = [
     description: "By the water",
     descriptionZh: "水邊時光",
     videos: [
-      {
-        title: "On the water",
-        titleZh: "水面上",
-        caption: "A quiet day",
-        captionZh: "安靜的一天",
-        url: PLACEHOLDER,
-      },
-      {
-        title: "Early morning",
-        titleZh: "清晨",
-        url: PLACEHOLDER,
-      },
+      { title: "Memory 1", titleZh: "釣魚（一）", url: "https://youtu.be/xvMEccbpi0Y" },
+      { title: "Memory 2", titleZh: "釣魚（二）", url: "https://youtu.be/8jhOhTF7dtE" },
+      { title: "Memory 3", titleZh: "釣魚（三）", url: "https://youtu.be/732jDhnqEsE" },
+      { title: "Memory 4", titleZh: "釣魚（四）", url: "https://youtu.be/pPvxJRH0o1A" },
     ],
   },
   {
@@ -76,18 +68,9 @@ export const topics: MemorialTopic[] = [
     description: "At home with family",
     descriptionZh: "與家人在家",
     videos: [
-      {
-        title: "Weekend breakfast",
-        titleZh: "週末早餐",
-        caption: "Small routines",
-        captionZh: "日常片段",
-        url: PLACEHOLDER,
-      },
-      {
-        title: "Laughter in the kitchen",
-        titleZh: "廚房裡的笑聲",
-        url: PLACEHOLDER,
-      },
+      { title: "Memory 1", titleZh: "在家（一）", url: "https://youtu.be/zHLlg5NpQ9I" },
+      { title: "Memory 2", titleZh: "在家（二）", url: "https://youtu.be/6-1BKEcIDBI" },
+      { title: "Memory 3", titleZh: "在家（三）", url: "https://youtu.be/gzHic72q0Sk" },
     ],
   },
   {
@@ -108,7 +91,18 @@ export const topics: MemorialTopic[] = [
     description: "Cold air, big sky",
     descriptionZh: "冷空氣、大天空",
     videos: [
-      { title: "Wide open", titleZh: "遼闊", url: PLACEHOLDER },
+      { title: "Memory 1", titleZh: "阿拉斯加（一）", url: "https://youtu.be/YcA_UFqwIiU" },
+      { title: "Memory 2", titleZh: "阿拉斯加（二）", url: "https://youtu.be/jAIpOM0xkGo" },
+    ],
+  },
+  {
+    slug: "hainan",
+    label: "Hainan",
+    labelZh: "海南",
+    description: "Island time",
+    descriptionZh: "海島時光",
+    videos: [
+      { title: "Memory 1", titleZh: "海南（一）", url: "https://youtu.be/KpJT-B9BL0g" },
     ],
   },
   {
