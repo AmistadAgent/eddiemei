@@ -8,9 +8,11 @@ type VideoCardProps = {
   video: MemorialVideo;
   index: number;
   onOpen: (index: number) => void;
+  /** `grid` = thumbnail on top, titles below (home gallery) */
+  layout?: "row" | "grid";
 };
 
-export function VideoCard({ video, index, onOpen }: VideoCardProps) {
+export function VideoCard({ video, index, onOpen, layout = "row" }: VideoCardProps) {
   const t = getYoutubeId(video.url);
   const thumb =
     video.thumbnailOverride || (t ? getYoutubeThumbnail(t, "max") : null);
@@ -18,6 +20,71 @@ export function VideoCard({ video, index, onOpen }: VideoCardProps) {
   const capEn = video.caption;
   const capZh = video.captionZh ?? video.caption;
   const hasCaption = Boolean(capEn?.trim());
+
+  if (layout === "grid") {
+    return (
+      <button
+        type="button"
+        onClick={() => onOpen(index)}
+        className="group flex h-full w-full min-h-0 flex-col overflow-hidden rounded-2xl border-2 border-[--ink-soft] bg-[--card] text-left shadow-sm transition [transition-property:box-shadow,transform] active:scale-[0.99] focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[--accent]"
+      >
+        <span className="relative aspect-video w-full shrink-0 overflow-hidden bg-[#0a0a0a]/5">
+          {thumb ? (
+            <Image
+              src={thumb}
+              alt=""
+              width={640}
+              height={360}
+              className="h-full w-full object-cover"
+              unoptimized
+            />
+          ) : (
+            <span className="flex aspect-video w-full items-center justify-center bg-[--mist] px-2 text-center text-sm text-[--ink-muted]">
+              <BilingualLines
+                text={ui.playVideo}
+                enClassName="text-sm"
+                zhClassName="!mt-0 text-xs"
+                gapClassName="mt-0.5"
+              />
+            </span>
+          )}
+        </span>
+        <span className="flex flex-1 flex-col p-3 sm:p-4">
+          <span
+            className="font-serif text-lg font-medium leading-snug text-[--ink] sm:text-xl"
+            lang="en"
+          >
+            {video.title}
+          </span>
+          <span
+            className="mt-1 line-clamp-2 font-sans text-base text-[--ink-muted] sm:text-lg"
+            lang="zh-Hant"
+          >
+            {titleZh}
+          </span>
+          {hasCaption && capEn && (
+            <span
+              className="mt-1 line-clamp-2 text-sm text-[--ink-faint] sm:text-base"
+              lang="en"
+            >
+              {capEn}
+            </span>
+          )}
+        </span>
+        <span className="mt-auto border-t border-[--ink-soft]/30 px-3 pb-3 sm:px-4 sm:pb-4">
+          <span className="inline-flex rounded-md bg-[--accent-muted] px-2 py-1.5 text-left text-sm font-medium text-[--ink] sm:text-base">
+            <BilingualLines
+              text={ui.playVideo}
+              enClassName="text-sm"
+              zhClassName="!mt-0 text-xs"
+              gapClassName="mt-0.5"
+            />
+          </span>
+        </span>
+      </button>
+    );
+  }
+
   return (
     <button
       type="button"

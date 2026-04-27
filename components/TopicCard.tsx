@@ -4,17 +4,17 @@ import type { MemorialTopic } from "@/data/topics";
 type TopicCardProps = {
   topic: MemorialTopic;
   simpleMode: boolean;
+  /** Home: open gallery on the same page. Omit to use `/topic/[slug]`. */
+  onSelect?: (slug: string) => void;
 };
 
-export function TopicCard({ topic, simpleMode }: TopicCardProps) {
+export function TopicCard({ topic, simpleMode, onSelect }: TopicCardProps) {
   const hasDesc = Boolean(
     (topic.description?.trim() || topic.descriptionZh?.trim()) && !simpleMode
   );
-  return (
-    <Link
-      href={`/topic/${topic.slug}/`}
-      className="group flex min-h-[120px] flex-col items-stretch justify-center gap-1 rounded-2xl border-2 border-[--ink-soft] bg-[--card] px-8 py-10 text-left shadow-sm transition [transition-property:box-shadow,transform,background-color] active:scale-[0.99] sm:min-h-[140px] sm:px-10 sm:py-12 focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-[--accent]"
-    >
+
+  const inner = (
+    <>
       <span
         className={`font-serif font-medium leading-tight text-[--ink] ${
           simpleMode ? "text-3xl sm:text-4xl" : "text-2xl sm:text-3xl"
@@ -42,6 +42,23 @@ export function TopicCard({ topic, simpleMode }: TopicCardProps) {
           {topic.descriptionZh}
         </span>
       )}
+    </>
+  );
+
+  const className =
+    "group flex min-h-[120px] w-full flex-col items-stretch justify-center gap-1 rounded-2xl border-2 border-[--ink-soft] bg-[--card] px-8 py-10 text-left shadow-sm transition [transition-property:box-shadow,transform,background-color] active:scale-[0.99] sm:min-h-[140px] sm:px-10 sm:py-12 focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-[--accent]";
+
+  if (onSelect) {
+    return (
+      <button type="button" onClick={() => onSelect(topic.slug)} className={className}>
+        {inner}
+      </button>
+    );
+  }
+
+  return (
+    <Link href={`/topic/${topic.slug}/`} className={className}>
+      {inner}
     </Link>
   );
 }

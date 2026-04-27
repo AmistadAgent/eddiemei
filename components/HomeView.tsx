@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { topics } from "@/data/topics";
+import { useCallback, useEffect, useState } from "react";
+import { getTopicBySlug, topics } from "@/data/topics";
 import { HERO_IMAGE_ALT, HERO_IMAGE_URL, HIGHLIGHTS_REEL_URL } from "@/data/site";
 import { ui } from "@/lib/i18n";
 import { useMemorial } from "./MemorialProviders";
 import { ariaBilingual, BilingualLines } from "./BilingualLines";
 import { TopicCard } from "./TopicCard";
+import { TopicVideoSection } from "./TopicVideoSection";
 
 function scrollToTopics() {
   const el = document.getElementById("memory-topics");
@@ -79,6 +81,27 @@ function HomeReelVideo() {
 
 export function HomeView() {
   const { simpleMode } = useMemorial();
+  const [activeSlug, setActiveSlug] = useState<string | null>(null);
+  const activeTopic = activeSlug ? getTopicBySlug(activeSlug) : undefined;
+
+  const exitTopic = useCallback(() => {
+    setActiveSlug(null);
+    requestAnimationFrame(() => {
+      document
+        .getElementById("memory-topics")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, []);
+
+  useEffect(() => {
+    if (activeSlug) {
+      requestAnimationFrame(() => {
+        document
+          .getElementById("topic-gallery")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }, [activeSlug]);
 
   return (
     <div className="w-full max-w-5xl flex-col">
@@ -157,16 +180,47 @@ export function HomeView() {
           <h2 className="sr-only">
             {ui.chooseTopic.en} · {ui.chooseTopic.zh}
           </h2>
-          <ul
-            className="mx-auto flex max-w-4xl list-none flex-col gap-5 sm:gap-6"
-            role="list"
-          >
-            {topics.map((topic) => (
-              <li key={topic.slug} className="w-full" role="none">
-                <TopicCard topic={topic} simpleMode={simpleMode} />
-              </li>
-            ))}
-          </ul>
+          {activeTopic ? (
+            <div
+              id="topic-gallery"
+              className="mx-auto w-full max-w-6xl"
+            >
+              <button
+                type="button"
+                onClick={exitTopic}
+                className="mb-6 min-h-[56px] w-full max-w-2xl rounded-2xl border-2 border-[--ink-soft] bg-white px-5 py-3 text-left text-[--ink] shadow-sm transition active:scale-[0.99] sm:min-h-[64px] sm:py-4"
+                aria-label={ariaBilingual(ui.backToTopics)}
+              >
+                <BilingualLines
+                  text={ui.backToTopics}
+                  enClassName="text-xl font-medium sm:text-2xl"
+                  zhClassName="!mt-0.5 text-base sm:text-lg"
+                  gapClassName="mt-0.5"
+                />
+              </button>
+              <TopicVideoSection
+                topic={activeTopic}
+                simpleMode={simpleMode}
+                videoLayout="grid"
+                onExitToAllTopics={exitTopic}
+              />
+            </div>
+          ) : (
+            <ul
+              className="mx-auto flex max-w-4xl list-none flex-col gap-5 sm:gap-6"
+              role="list"
+            >
+              {topics.map((topic) => (
+                <li key={topic.slug} className="w-full" role="none">
+                  <TopicCard
+                    topic={topic}
+                    simpleMode={simpleMode}
+                    onSelect={setActiveSlug}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       </div>
     </div>

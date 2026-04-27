@@ -11,11 +11,20 @@ import { VideoCard } from "./VideoCard";
 type TopicVideoSectionProps = {
   topic: MemorialTopic;
   simpleMode: boolean;
+  /** Home: thumbnail grid. Topic page: stacked row cards */
+  videoLayout?: "list" | "grid";
+  /**
+   * When set, the player’s “Back to all topics” calls this (stays on home)
+   * instead of navigating to `/`.
+   */
+  onExitToAllTopics?: () => void;
 };
 
 export function TopicVideoSection({
   topic,
   simpleMode,
+  videoLayout = "list",
+  onExitToAllTopics,
 }: TopicVideoSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const open = openIndex !== null;
@@ -106,13 +115,22 @@ export function TopicVideoSection({
         </div>
       </div>
       <ul
-        className="flex list-none flex-col items-center gap-6 sm:gap-8"
+        className={
+          videoLayout === "grid"
+            ? "grid w-full list-none grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
+            : "flex list-none flex-col items-center gap-6 sm:gap-8"
+        }
         role="list"
         aria-labelledby={titleId}
       >
         {topic.videos.map((v, i) => (
-          <li key={i} className="w-full" role="none">
-            <VideoCard video={v} index={i} onOpen={setOpenIndex} />
+          <li key={i} className={videoLayout === "grid" ? "min-w-0" : "w-full"} role="none">
+            <VideoCard
+              video={v}
+              index={i}
+              onOpen={setOpenIndex}
+              layout={videoLayout === "grid" ? "grid" : "row"}
+            />
           </li>
         ))}
       </ul>
@@ -126,18 +144,37 @@ export function TopicVideoSection({
         >
           <div className="flex min-h-0 flex-1 flex-col gap-4 p-4 sm:p-6">
             <div className="flex flex-shrink-0 flex-col gap-3 sm:flex-row sm:items-stretch sm:justify-between sm:gap-4">
-              <Link
-                href="/"
-                className="inline-flex min-h-[56px] min-w-0 max-w-2xl flex-1 flex-col items-center justify-center rounded-2xl border-2 border-white/50 bg-white px-4 py-3 text-center text-[#1a1a1a] focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-amber-100"
-                aria-label={ariaBilingual(ui.backToTopics)}
-              >
-                <BilingualLines
-                  text={ui.backToTopics}
-                  enClassName="text-lg font-medium sm:text-xl"
-                  zhClassName="!mt-1 text-sm sm:text-base"
-                  gapClassName="mt-0.5"
-                />
-              </Link>
+              {onExitToAllTopics ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpenIndex(null);
+                    onExitToAllTopics();
+                  }}
+                  className="inline-flex min-h-[56px] min-w-0 max-w-2xl flex-1 flex-col items-center justify-center rounded-2xl border-2 border-white/50 bg-white px-4 py-3 text-center text-[#1a1a1a] focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-amber-100"
+                  aria-label={ariaBilingual(ui.backToTopics)}
+                >
+                  <BilingualLines
+                    text={ui.backToTopics}
+                    enClassName="text-lg font-medium sm:text-xl"
+                    zhClassName="!mt-1 text-sm sm:text-base"
+                    gapClassName="mt-0.5"
+                  />
+                </button>
+              ) : (
+                <Link
+                  href="/"
+                  className="inline-flex min-h-[56px] min-w-0 max-w-2xl flex-1 flex-col items-center justify-center rounded-2xl border-2 border-white/50 bg-white px-4 py-3 text-center text-[#1a1a1a] focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-amber-100"
+                  aria-label={ariaBilingual(ui.backToTopics)}
+                >
+                  <BilingualLines
+                    text={ui.backToTopics}
+                    enClassName="text-lg font-medium sm:text-xl"
+                    zhClassName="!mt-1 text-sm sm:text-base"
+                    gapClassName="mt-0.5"
+                  />
+                </Link>
+              )}
               <button
                 type="button"
                 onClick={() => setOpenIndex(null)}
