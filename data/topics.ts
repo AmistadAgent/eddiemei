@@ -3,13 +3,15 @@
  * =================================
  * Edit this file to add/change topics and videos.
  *
- * VIDEOS: Replace each `url` with your YouTube link (unlisted is fine):
- *   - Full link from the address bar, e.g.
- *     "https://www.youtube.com/watch?v=xxxxxxxxxxx"
- *   - Or a short youtu.be link: "https://youtu.be/xxxxxxxxxxx"
- *   (The site converts these for playback and thumbnails automatically.)
+ * VIDEOS: `url` can be:
+ *   - YouTube: watch, youtu.be, embed (unlisted OK; thumbnails from YouTube)
+ *   - Direct file: .mp4 / .webm on HTTPS (e.g. S3) — use `thumbnailOverride` for a
+ *     static image, or the card shows a simple placeholder
  *
- * Placeholder links below are only so the site builds; swap every `url` for real ones.
+ * Titles: optional labels in this file are fallbacks. To show each video’s real
+ * YouTube title (English) plus auto-translated 繁體中文, run:
+ *   npm run refresh-titles
+ * That writes/updates `data/video-title-overrides.json` (commit it for deploys).
  */
 
 export type MemorialVideo = {
@@ -58,7 +60,11 @@ export const topics: MemorialTopic[] = [
     description: "A familiar scene",
     descriptionZh: "熟悉的身影",
     videos: [
-      { title: "On the porch", titleZh: "在門廊", url: PLACEHOLDER },
+      {
+        title: "dad smoking",
+        titleZh: "爸爸抽菸",
+        url: "https://youtu.be/otBuxzAafn4",
+      },
     ],
   },
   {
@@ -71,6 +77,11 @@ export const topics: MemorialTopic[] = [
       { title: "Memory 1", titleZh: "在家（一）", url: "https://youtu.be/zHLlg5NpQ9I" },
       { title: "Memory 2", titleZh: "在家（二）", url: "https://youtu.be/6-1BKEcIDBI" },
       { title: "Memory 3", titleZh: "在家（三）", url: "https://youtu.be/gzHic72q0Sk" },
+      {
+        title: "2000s VCR highlights",
+        titleZh: "2000 年代 VCR 精選",
+        url: "https://eddiemei-memorial-assets.s3.us-east-1.amazonaws.com/2000s+VCR+Highlight+Video.mp4",
+      },
     ],
   },
   {
@@ -80,8 +91,11 @@ export const topics: MemorialTopic[] = [
     description: "The lighter side",
     descriptionZh: "輕鬆一面",
     videos: [
-      { title: "That laugh", titleZh: "那個笑聲", url: PLACEHOLDER },
-      { title: "Goofing around", titleZh: "鬧著玩", url: PLACEHOLDER },
+      {
+        title: "Memory 3",
+        titleZh: "俏皮（三）",
+        url: "https://youtu.be/0IvEUdlrejk",
+      },
     ],
   },
   {
@@ -112,9 +126,10 @@ export const topics: MemorialTopic[] = [
     description: "Roots and return visits",
     descriptionZh: "根與回訪",
     videos: [
-      { title: "Streets and family",
-        titleZh: "街道與家人",
-        url: PLACEHOLDER,
+      {
+        title: "Malaysia highlight reel",
+        titleZh: "馬來西亞精選",
+        url: "https://eddiemei-memorial-assets.s3.us-east-1.amazonaws.com/Malaysia+Highlight+Video.mp4",
       },
     ],
   },

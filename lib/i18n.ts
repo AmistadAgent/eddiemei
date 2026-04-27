@@ -30,8 +30,8 @@ export const ui = {
     zh: "以影像回顧他的一生",
   },
   invalidYoutube: {
-    en: "Please add a valid YouTube URL in data/topics.ts for this video.",
-    zh: "請在 data/topics.ts 為此影片加入有效的 YouTube 網址。",
+    en: "This video could not be loaded. Use a valid YouTube or direct .mp4 link in data/topics.ts.",
+    zh: "無法播放此影片。請在 data/topics.ts 使用有效的 YouTube 或 .mp4 連結。",
   },
   notFoundTitle: { en: "Page not found", zh: "找不到頁面" },
   notFoundBody: {
@@ -39,6 +39,15 @@ export const ui = {
     zh: "沒有這個回憶主題。",
   },
   notFoundCta: { en: "Back to the home gallery", zh: "回到首頁" },
+  /** Optional Spotify block on home */
+  spotifyHeading: {
+    en: "His favorite music",
+    zh: "他最喜歡的音樂",
+  },
+  spotifyHint: {
+    en: "Enjoy his favorite music",
+    zh: "享受他最喜歡的音樂",
+  },
 } as const;
 
 export type Bilingual = { en: string; zh: string };

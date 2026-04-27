@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google";
 import { HERO_IMAGE_URL } from "@/data/site";
 import "./globals.css";
@@ -55,7 +56,14 @@ export default function RootLayout({
             <div
               className="sticky top-0 z-40 w-full border-b border-[#dcd4c6]/80 bg-[--bg]/90 px-4 py-3 backdrop-blur-sm sm:px-8 sm:py-4"
             >
-              <div className="mx-auto flex w-full max-w-5xl items-center justify-end">
+              <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-3 sm:gap-4">
+                <Link
+                  href="/"
+                  className="min-h-[44px] min-w-0 shrink font-serif text-xl font-medium leading-tight text-[--ink] transition hover:text-[--ink-muted] focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[--accent] sm:text-2xl"
+                  aria-label="Eddie Mei — back to home"
+                >
+                  Eddie Mei 梅志清
+                </Link>
                 <SiteControls />
               </div>
             </div>

@@ -4,6 +4,8 @@ import { useCallback, useEffect, useId, useState } from "react";
 import Link from "next/link";
 import type { MemorialTopic } from "@/data/topics";
 import { ui } from "@/lib/i18n";
+import { isDirectVideoFileUrl } from "@/lib/video-source";
+import { getVideoDisplayTitles, getVideoLabelForIframe } from "@/lib/video-titles";
 import { getYoutubeEmbedUrl, getYoutubeId } from "@/lib/youtube";
 import { ariaBilingual, BilingualLines } from "./BilingualLines";
 import { VideoCard } from "./VideoCard";
@@ -34,11 +36,11 @@ export function TopicVideoSection({
   const n = topic.videos.length;
   const current = openIndex ?? 0;
   const video = topic.videos[current];
-  const vid = video ? getYoutubeId(video.url) : null;
+  const ytid = video ? getYoutubeId(video.url) : null;
+  const isDirect = video ? isDirectVideoFileUrl(video.url) : false;
   const showNav = n > 1;
-  const videoTitleI18n = video
-    ? `${video.title} / ${video.titleZh ?? video.title}`
-    : "";
+  const lineTitles = video ? getVideoDisplayTitles(video) : null;
+  const videoTitleI18n = video ? getVideoLabelForIframe(video) : "";
 
   const goPrev = useCallback(() => {
     if (openIndex === null) return;
@@ -190,16 +192,30 @@ export function TopicVideoSection({
               </button>
             </div>
 
-            {vid ? (
+            {ytid ? (
               <div className="mx-auto w-full max-w-5xl flex-1 overflow-hidden rounded-xl bg-black shadow-2xl">
                 <div className="relative aspect-video w-full">
                   <iframe
-                    key={vid + current}
+                    key={ytid + String(current)}
                     title={videoTitleI18n}
                     className="absolute inset-0 h-full w-full"
-                    src={getYoutubeEmbedUrl(vid, { autoplay: true })}
+                    src={getYoutubeEmbedUrl(ytid, { autoplay: true })}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
+                  />
+                </div>
+              </div>
+            ) : isDirect && video ? (
+              <div className="mx-auto w-full max-w-5xl flex-1 overflow-hidden rounded-xl bg-black shadow-2xl">
+                <div className="relative aspect-video w-full">
+                  <video
+                    key={video.url + String(current)}
+                    className="absolute inset-0 h-full w-full"
+                    controls
+                    playsInline
+                    autoPlay
+                    src={video.url}
+                    title={videoTitleI18n}
                   />
                 </div>
               </div>
@@ -216,13 +232,13 @@ export function TopicVideoSection({
 
             <div className="mx-auto w-full max-w-5xl flex-shrink-0 text-center text-white">
               <h2 className="font-serif text-3xl font-medium sm:text-4xl" lang="en">
-                {video.title}
+                {lineTitles?.en}
               </h2>
               <p
                 className="mt-1 font-serif text-2xl text-white/85 sm:text-3xl"
                 lang="zh-Hant"
               >
-                {video.titleZh ?? video.title}
+                {lineTitles?.zh}
               </p>
               {video.caption && (
                 <p

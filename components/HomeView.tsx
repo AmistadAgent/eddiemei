@@ -3,7 +3,12 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { getTopicBySlug, topics } from "@/data/topics";
-import { HERO_IMAGE_ALT, HERO_IMAGE_URL, HIGHLIGHTS_REEL_URL } from "@/data/site";
+import {
+  HERO_IMAGE_ALT,
+  HERO_IMAGE_URL,
+  HIGHLIGHTS_REEL_URL,
+  SPOTIFY_PLAYLIST_ID,
+} from "@/data/site";
 import { ui } from "@/lib/i18n";
 import { useMemorial } from "./MemorialProviders";
 import { ariaBilingual, BilingualLines } from "./BilingualLines";
@@ -222,6 +227,42 @@ export function HomeView() {
             </ul>
           )}
         </section>
+
+        {SPOTIFY_PLAYLIST_ID ? (
+          <section
+            id="optional-music"
+            className="border-t border-[#dcd4c6]/60 bg-[--bg] px-4 pb-16 pt-10 sm:px-8"
+            aria-label={`${ui.spotifyHeading.en} · ${ui.spotifyHeading.zh}`}
+          >
+            <div className="mx-auto w-full max-w-2xl">
+              <BilingualLines
+                text={ui.spotifyHeading}
+                enClassName="text-2xl font-medium text-[--ink] sm:text-3xl"
+                zhClassName="!mt-1 text-xl sm:text-2xl"
+                gapClassName="mt-1"
+              />
+              <div className="mt-2 max-w-xl sm:mt-3">
+                <BilingualLines
+                  text={ui.spotifyHint}
+                  enClassName="text-base text-[--ink-muted] sm:text-lg"
+                  zhClassName="!mt-1.5 text-sm sm:text-base"
+                  gapClassName="mt-1.5"
+                />
+              </div>
+              <div className="mt-6 overflow-hidden rounded-2xl border-2 border-[#dcd4c6] bg-[#121212] shadow-md">
+                <iframe
+                  title={`${ui.spotifyHeading.en} — ${ui.spotifyHeading.zh}`}
+                  src={`https://open.spotify.com/embed/playlist/${SPOTIFY_PLAYLIST_ID}?utm_source=generator`}
+                  width="100%"
+                  height={380}
+                  className="min-h-[380px] w-full"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </section>
+        ) : null}
       </div>
     </div>
   );

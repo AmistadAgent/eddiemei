@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { MemorialVideo } from "@/data/topics";
 import { ui } from "@/lib/i18n";
+import { getVideoDisplayTitles } from "@/lib/video-titles";
 import { getYoutubeId, getYoutubeThumbnail } from "@/lib/youtube";
 import { BilingualLines } from "./BilingualLines";
 
@@ -16,7 +17,7 @@ export function VideoCard({ video, index, onOpen, layout = "row" }: VideoCardPro
   const t = getYoutubeId(video.url);
   const thumb =
     video.thumbnailOverride || (t ? getYoutubeThumbnail(t, "max") : null);
-  const titleZh = video.titleZh ?? video.title;
+  const titles = getVideoDisplayTitles(video);
   const capEn = video.caption;
   const capZh = video.captionZh ?? video.caption;
   const hasCaption = Boolean(capEn?.trim());
@@ -54,13 +55,13 @@ export function VideoCard({ video, index, onOpen, layout = "row" }: VideoCardPro
             className="font-serif text-lg font-medium leading-snug text-[--ink] sm:text-xl"
             lang="en"
           >
-            {video.title}
+            {titles.en}
           </span>
           <span
             className="mt-1 line-clamp-2 font-sans text-base text-[--ink-muted] sm:text-lg"
             lang="zh-Hant"
           >
-            {titleZh}
+            {titles.zh}
           </span>
           {hasCaption && capEn && (
             <span
@@ -114,10 +115,10 @@ export function VideoCard({ video, index, onOpen, layout = "row" }: VideoCardPro
       </span>
       <span className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:gap-2 sm:py-6 sm:pl-8">
         <span className="font-serif text-2xl font-medium text-[--ink] sm:text-3xl" lang="en">
-          {video.title}
+          {titles.en}
         </span>
         <span className="font-serif text-xl text-[--ink-muted] sm:text-2xl" lang="zh-Hant">
-          {titleZh}
+          {titles.zh}
         </span>
         {hasCaption && (
           <>
