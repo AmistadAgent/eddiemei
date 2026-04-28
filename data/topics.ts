@@ -82,6 +82,11 @@ export const topics: MemorialTopic[] = [
         titleZh: "2000 年代 VCR 精選",
         url: "https://eddiemei-memorial-assets.s3.us-east-1.amazonaws.com/2000s+VCR+Highlight+Video.mp4",
       },
+      {
+        title: "dad being dad",
+        titleZh: "在家當爸爸的樣子",
+        url: "https://youtu.be/PSs3EOmgky8",
+      },
     ],
   },
   {
