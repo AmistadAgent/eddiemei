@@ -34,10 +34,12 @@ export type MemorialTopic = {
   description?: string;
   descriptionZh?: string;
   videos: MemorialVideo[];
+  /** When true, omitted from the home topic list (direct `/topic/…` links still work). */
+  hidden?: boolean;
 };
 
-/** `jNQXAC9IVRw` = placeholder so previews work; replace with your own links */
-const PLACEHOLDER = "https://www.youtube.com/watch?v=jNQXAC9IVRw";
+/** Temporary link until each slot has its own video */
+const PLACEHOLDER = "https://www.youtube.com/watch?v=otBuxzAafn4";
 
 export const topics: MemorialTopic[] = [
   {
@@ -128,8 +130,8 @@ export const topics: MemorialTopic[] = [
     slug: "malaysia",
     label: "Malaysia",
     labelZh: "馬來西亞",
-    description: "Roots and return visits",
-    descriptionZh: "根與回訪",
+    description: "Travel memories",
+    descriptionZh: "旅行回憶",
     videos: [
       {
         title: "Malaysia highlight reel",
@@ -140,6 +142,7 @@ export const topics: MemorialTopic[] = [
   },
   {
     slug: "vietnam",
+    hidden: true,
     label: "Vietnam",
     labelZh: "越南",
     description: "Memories of the journey",
@@ -155,6 +158,7 @@ export const topics: MemorialTopic[] = [
   },
   {
     slug: "fixing-things",
+    hidden: true,
     label: "Fixing Things",
     labelZh: "修理東西",
     description: "Hands that knew the work",
@@ -173,6 +177,7 @@ export const topics: MemorialTopic[] = [
   },
   {
     slug: "singing",
+    hidden: true,
     label: "Singing",
     labelZh: "唱歌",
     description: "Voice and song",
@@ -190,6 +195,9 @@ export const topics: MemorialTopic[] = [
     ],
   },
 ];
+
+/** Topics listed on the home gallery (skips `hidden`). */
+export const topicsForHome = topics.filter((t) => !t.hidden);
 
 const bySlug: Map<string, MemorialTopic> = new Map(
   topics.map((t) => [t.slug, t])

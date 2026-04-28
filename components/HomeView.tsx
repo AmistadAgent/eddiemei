@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { getTopicBySlug, topics } from "@/data/topics";
+import { getTopicBySlug, topicsForHome } from "@/data/topics";
 import {
   HERO_IMAGE_ALT,
   HERO_IMAGE_URL,
@@ -89,7 +89,7 @@ function HomeSpotifySection() {
   return (
     <section
       id="optional-music"
-      className="border-t border-[#dcd4c6]/60 bg-[--bg] px-4 pb-12 pt-10 sm:px-8 sm:pb-14"
+      className="border-t border-[#dcd4c6]/60 bg-[--bg] px-4 pb-16 pt-10 sm:px-8 sm:pb-20"
       aria-label={`${ui.spotifyHeading.en} · ${ui.spotifyHeading.zh}`}
     >
       <div className="mx-auto w-full max-w-2xl">
@@ -215,8 +215,6 @@ export function HomeView() {
       </section>
 
       <div className="memorial-warm relative w-full max-w-5xl flex-col">
-        <HomeSpotifySection />
-
         <section
           id="memory-topics"
           className="scroll-mt-6 border-t border-[#dcd4c6]/60 bg-[--bg] px-4 pb-20 pt-10 sm:px-8"
@@ -256,7 +254,7 @@ export function HomeView() {
               className="mx-auto flex max-w-4xl list-none flex-col gap-5 sm:gap-6"
               role="list"
             >
-              {topics.map((topic) => (
+              {topicsForHome.map((topic) => (
                 <li key={topic.slug} className="w-full" role="none">
                   <TopicCard
                     topic={topic}
@@ -268,6 +266,8 @@ export function HomeView() {
             </ul>
           )}
         </section>
+
+        <HomeSpotifySection />
       </div>
     </div>
   );
